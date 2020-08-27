@@ -3,7 +3,7 @@
 ## Server API
 
 ### Get reservation info for a specific property
-  * GET `/property/:property_id/reservation`
+  * GET `/properties/:property_id/reservations`
 
 **Path Parameters:**
   * `property_id` property id
@@ -27,7 +27,7 @@
 ```
 
 ### Add reservation
-  * POST `/property/:property_id/reservation`
+  * POST `/properties/:property_id/reservations`
 
 **Path Parameters:**
   * `property_id` property id
@@ -47,7 +47,7 @@
 
 
 ### Update reservation info
-  * PUT `/property/:property_id/reservation/:reservation_id`
+  * PUT `/properties/:property_id/reservations/:reservation_id`
 
 **Path Parameters:**
   * `property_id` property id
@@ -66,7 +66,7 @@
 ```
 
 ### Delete reservation
-  * DELETE `/property/:property_id/reservation/:reservation_id`
+  * DELETE `/properties/:property_id/reservations/:reservation_id`
 
 **Path Parameters:**
   * `property_id` property id
