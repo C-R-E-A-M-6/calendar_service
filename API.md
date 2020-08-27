@@ -18,7 +18,8 @@
       "rating": "Number",
       "reviews": "Number",
       "maximum_guests": "Number",
-      "booked_date": "String",
+      "check_in": "Date",
+      "check_out": "Date",
       "minimum_stay": "Number",
       "reservation_id": "Number",
       "nights": "Number"
@@ -38,9 +39,9 @@
 ```json
     {
       "reservation_id": "Number",
-      "booked_date": "String",
-      "guests": "Number",
-      "nights": "Number"
+      "check_in": "Date",
+      "check_out": "Date",
+      "guests": "Number"
     }
 ```
 
@@ -59,8 +60,8 @@
 ```json
     {
       "guests": "Number",
-      "nights": "Number",
-      "booked_date": "String"
+      "check_in": "Date",
+      "check_out": "Date"
     }
 ```
 
