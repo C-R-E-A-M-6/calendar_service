@@ -118,7 +118,7 @@ class App extends React.Component {
     let reservation = {
       check_in: this.state.checkInDateMomentObj.format('YYYY-MM-DD'),
       check_out: this.state.checkOutDateMomentObj.format('YYYY-MM-DD')
-    }
+    };
     $.post(`/rooms/${this.state.roomId}/reservation`, reservation, () => {
       console.log("POST request succeed");
       // clear the posted reservation data
@@ -199,7 +199,7 @@ class App extends React.Component {
     } else if (guestType === 'Infants') {
       if (this.state.infants > 0) {
         this.setState({
-          infants: this.state.infants - 1
+          infants: this.state.infants - 1,
         });
       }
     }
@@ -290,4 +290,3 @@ class App extends React.Component {
 }
 
 export default App;
-

@@ -38,7 +38,7 @@ const generateRooms = function(callback) {
       }
     });
   }
-}
+};
 
 // create a function that generate 1 to 15 reservations for input roomID and insert into reservations table
 const generateReservations = function(roomID, minimumStay) {
@@ -88,4 +88,3 @@ const generateReservations = function(roomID, minimumStay) {
 
 // invoke generateRooms function
 generateRooms(generateReservations);
-

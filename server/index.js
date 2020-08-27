@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/rooms/:room_id', expressStaticGzip(publicPath, {
   enableBrotli: true,
-  orderPreference: ['br']
+  orderPreference: ['br'],
 }));
 
 // Route
