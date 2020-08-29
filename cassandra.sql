@@ -1,8 +1,11 @@
+DROP KEYSPACE property;
 /*
 build cassandra schema based on queries
 */
-CREATE KEYSPACE property with replication =
+CREATE KEYSPACE property WITH replication =
   {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+USE property;
 
 /*
 took out service fee and cleaning fee because they are calculated as a percentage of total cost and can be calculated in the server later
