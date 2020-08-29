@@ -2,6 +2,26 @@
 
 ## Server API
 
+### Get info for a specific property
+  * GET `/properties/:property_id/`
+
+**Path Parameters:**
+  * `property_id` property id
+
+**Success Status Code:** `200`
+
+**Returns:** JSON
+
+```json
+    {
+      "rating": "Number",
+      "reviews": "Number",
+      "maximum_guests": "Number",
+      "minimum_stay": "Number",
+      "rate": "Number"
+    }
+```
+
 ### Get reservation info for a specific property
   * GET `/properties/:property_id/reservations`
 
@@ -14,15 +34,11 @@
 
 ```json
     {
-      "nightly_fee": "Number",
-      "rating": "Number",
-      "reviews": "Number",
-      "maximum_guests": "Number",
-      "check_in": "Date",
-      "check_out": "Date",
-      "minimum_stay": "Number",
-      "reservation_id": "Number",
-      "nights": "Number"
+      "reservations": [{
+        "check_in": "Date",
+        "check_out": "Date"
+      }],
+      "rate": "Number"
     }
 ```
 
@@ -41,16 +57,17 @@
       "reservation_id": "Number",
       "check_in": "Date",
       "check_out": "Date",
-      "guests": "Number"
+      "adults": "Number",
+      "children": "Number",
+      "infants": "Number"
     }
 ```
 
 
 ### Update reservation info
-  * PUT `/properties/:property_id/reservations/:reservation_id`
+  * PUT `/reservations/:reservation_id`
 
 **Path Parameters:**
-  * `property_id` property id
   * `reservation_id` reservation_id
 
 **Success Status Code:** `204`
@@ -59,7 +76,9 @@
 
 ```json
     {
-      "guests": "Number",
+      "adults": "Number",
+      "children": "Number",
+      "infants": "Number",
       "check_in": "Date",
       "check_out": "Date"
     }
