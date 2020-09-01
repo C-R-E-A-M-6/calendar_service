@@ -1,0 +1,7 @@
+input: number of reservations, timeframe
+output: array of object dates that don't conflict
+
+get a check in date
+set a check out date 2-7 days later
+set new check in date that is 0-7 days after old check out date
+repeat step 5 until number of reservations is met

@@ -1,9 +1,9 @@
 const fs = require('fs');
 
 const writePropertyInfo = fs.createWriteStream('propertyInfo.csv');
-writePropertyInfo.write(`property_id,rating,total_reviews,maximum_guests,minimum_stay,nightlyfee\n`, 'utf8');
+writePropertyInfo.write('property_id,rating,total_reviews,maximum_guests,minimum_stay,nightlyfee\n', 'utf8');
 
-function writeTenMillionUsers(writer, encoding, callback) {
+function writeNewPropertyInfo(writer, encoding, callback) {
   let i = 10000000;
   let id = 0;
   function write() {
@@ -37,9 +37,9 @@ function writeTenMillionUsers(writer, encoding, callback) {
       writer.once('drain', write);
     }
   }
-write()
+  write();
 }
 
-writeTenMillionUsers(writePropertyInfo, 'utf-8', () => {
+writeNewPropertyInfo(writePropertyInfo, 'utf-8', () => {
   writePropertyInfo.end();
 });

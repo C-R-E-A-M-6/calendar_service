@@ -1,25 +1,24 @@
-DROP SCHEMA property CASCADE;
+DROP DATABASE IF EXISTS property;
+
+CREATE DATABASE property;
 
 CREATE SCHEMA property;
 
-  CREATE TABLE property.property_info(
+USE property;
+
+  CREATE TABLE property_info(
     property_id SERIAL,
     rating DECIMAL(3,2),
     total_reviews SMALLINT,
-    maximum_guests TINYINT,
-    minimum_stay TINYINT,
+    maximum_guests SMALLINT,
+    minimum_stay SMALLINT,
     nightly_fee SMALLINT
   );
 
-  /*
-  GET request will look like
-  SELECT * FROM property_info WHERE property_id = ?
-  */
-
-  CREATE TABLE property.reservations (
+  CREATE TABLE reservations (
     reservation_id SERIAL,
     property_id INT,
-    guests TINYINT,
+    guests SMALLINT,
     check_in DATE,
     check_out DATE
   );
