@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const writePropertyInfo = fs.createWriteStream('propertyInfo.csv');
+const writePropertyInfo = fs.createWriteStream('cassandra_propertyInfo.csv');
 writePropertyInfo.write('property_id,maximum_guests,minimum_stay,nightly_fee,rating,total_reviews\n', 'utf8');
 
 function writeNewPropertyInfo(writer, encoding, callback) {
@@ -15,11 +15,11 @@ function writeNewPropertyInfo(writer, encoding, callback) {
 
       const totalReviews = [11, 42, 115, 58, 32, 99, 45, 66][i % 8];
 
-      const maximumGuests = [2, 4, 8][i % 3];
+      const maximumGuests = [2, 8, 4][i % 3];
 
-      const minimumStay = [1, 2, 3][i % 3];
+      const minimumStay = [1, 3, 2][i % 3];
 
-      const nightlyFee = [76, 98, 120, 167, 203][i % 5];
+      const nightlyFee = [76, 180, 120, 101, 289, 209][i % 6];
 
       const data = `${id},${maximumGuests},${minimumStay},${nightlyFee},${rating},${totalReviews}\n`;
 

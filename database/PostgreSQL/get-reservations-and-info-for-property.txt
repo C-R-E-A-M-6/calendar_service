@@ -1,0 +1,9 @@
+select * from property_info inner join reservations on property_info.property_id = reservations.property_id where reservations.property_id = 222;
+
+property_id | rating | total_reviews | maximum_guests | minimum_stay | nightly_fee | reservation_id | property_id | guests |  check_in  | check_out
+-------------+--------+---------------+----------------+--------------+-------------+----------------+-------------+--------+------------+------------
+         222 |   4.20 |           115 |              4 |            2 |         167 |      136360651 |         222 |      2 | 2020-08-31 | 2020-09-05
+         222 |   4.20 |           115 |              4 |            2 |         167 |      136360652 |         222 |      4 | 2020-09-07 | 2020-09-14
+         222 |   4.20 |           115 |              4 |            2 |         167 |      136360653 |         222 |      6 | 2020-09-14 | 2020-09-17
+         222 |   4.20 |           115 |              4 |            2 |         167 |      136360654 |         222 |      2 | 2020-09-18 | 2020-09-24
+         222 |   4.20 |           115 |              4 |            2 |         167 |      136360655 |         222 |      4 | 2020-09-26 | 2020-09-28

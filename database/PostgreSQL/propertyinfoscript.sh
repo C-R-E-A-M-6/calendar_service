@@ -1,5 +1,5 @@
 #!/bin/bash
-psql postgres -U sdc -d property -c "COPY property_info(property_id, rating, total_reviews, maximum_guests, minimum_stay, nightly_fee)
-FROM '$(pwd)/propertyInfo.csv'
+psql -U sdc -d property -c "COPY property_info(maximum_guests, minimum_stay, nightly_fee, rating, total_reviews)
+FROM '$(pwd)/noIdPropertyInfo.csv'
 DELIMITER ','
 CSV HEADER"

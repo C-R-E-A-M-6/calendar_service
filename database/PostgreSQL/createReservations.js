@@ -16,5 +16,3 @@ const createReservations = (numOfReservations, startDate) => {
 };
 
 module.exports = createReservations;
-
-console.log(createReservations(5, moment().format('YYYY-MM-DD')));

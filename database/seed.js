@@ -1,5 +1,5 @@
-const db  = require('./index.js');
 const moment = require('moment');
+const db = require('./index.js');
 
 // create a function that generate 100 individual rooms and insert into rooms table
 const generateRooms = function(callback) {
@@ -57,7 +57,7 @@ const generateReservations = function(roomID, minimumStay) {
     // while the booked_date is already exist in the dates array
     while (dates.includes(booked_date)) {
       // regenerate and convert a random booked_date that between today and next 180 days for the current reservation
-      booked_date = moment(new Date(Math.random() * (moment(dateAfterHalfYear) - moment()) + moment())).format('YYYY-MM-DD');;
+      booked_date = moment(new Date(Math.random() * (moment(dateAfterHalfYear) - moment()) + moment())).format('YYYY-MM-DD');
     }
     // generate a random number of stay between minimumStay and 10 for the current reservation
     let numOfStay = Math.floor(Math.random() * (10 - minimumStay + 1)) + minimumStay;

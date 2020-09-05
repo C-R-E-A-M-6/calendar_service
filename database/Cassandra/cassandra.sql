@@ -1,22 +1,23 @@
-DROP KEYSPACE property;
+DROP KEYSPACE properties;
 /*
 build cassandra schema based on queries
 */
-CREATE KEYSPACE property WITH replication =
+CREATE KEYSPACE properties WITH replication =
   {'class': 'SimpleStrategy', 'replication_factor': 1};
 
-USE property;
+USE properties;
 
 /*
 took out service fee and cleaning fee because they are calculated as a percentage of total cost and can be calculated in the server later
 */
 
-CREATE TABLE properties (
+CREATE TABLE property_info (
   property_id INT,
-  maximum_guests TINYINT,
-  rating DECIMAL(3,2),
-  total_reviews SMALLINT,
-  minimum_stay TINYINT,
+  rating DECIMAL,
+  total_reviews INT,
+  maximum_guests INT,
+  minimum_stay INT,
+  nightly_fee INT,
   PRIMARY KEY (property_id)
 );
 
@@ -27,13 +28,12 @@ data will be clustered on the basis of reservation_id
 */
 
 CREATE TABLE reservations_by_property (
-  property_id INT,
   reservation_id INT,
-  adults TINYINT,
-  children TINYINT,
-  infants TINYINT,
-  booked_date DATE,
-  PRIMARY KEY ((property_id, reservation_id), booked_date)
+  property_id INT,
+  guests INT,
+  check_in VARCHAR,
+  check_out VARCHAR,
+  PRIMARY KEY ((property_id, reservation_id), check_in)
 );
 
 /*
@@ -46,4 +46,13 @@ CREATE TABLE days_of_year (
   day_of_year DATE,
   rate SMALLINT,
   PRIMARY KEY (property_id, day_of_year)
+);
+
+CREATE TABLE reservations (
+  reservation_id INT,
+  property_id INT,
+  guests INT,
+  check_in VARCHAR,
+  check_out VARCHAR,
+  PRIMARY KEY ((property_id, reservation_id), check_in)
 );

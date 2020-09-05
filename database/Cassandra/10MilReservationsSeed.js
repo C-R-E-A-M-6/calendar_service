@@ -1,14 +1,14 @@
 const fs = require('fs');
 const moment = require('moment');
-const createReservations = require('./createReservations.js');
+const createReservations = require('../PostgreSQL/createReservations.js');
 
-const writeReservations = fs.createWriteStream('cass_reservations.csv');
+const writeReservations = fs.createWriteStream('cassandra_reservations10.csv');
 writeReservations.write('property_id,reservation_id,check_in,check_out,guests\n', 'utf8');
 
 const reservationNumber = [1, 5, 5, 5, 5, 20, 20, 20, 20, 20, 50];
 
 function writeNewReservations(writer, encoding, callback) {
-  let i = 10000000;
+  let i = 1000000;
   let d = 0;
   function write() {
     let ok = true;
@@ -16,10 +16,9 @@ function writeNewReservations(writer, encoding, callback) {
     let numOfReservations = reservationNumber[i % reservationNumber.length];
     let reservations = createReservations(numOfReservations, moment().format('YYYY-MM-DD'));
     do {
-      const guests = [4, 2, 6][i % 3];
-      // const maximumGuests = [8, 2, 4][i % 3];
+      const maximumGuests = [4, 2, 8][i % 3];
 
-      // const guests = [maximumGuests - 1, maximumGuests][d % 2];
+      const guests = [maximumGuests - 1, maximumGuests][d % 2];
 
       // get a reservation
       const reservation = reservations[reservationIndex];

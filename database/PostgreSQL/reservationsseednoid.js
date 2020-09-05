@@ -2,29 +2,29 @@ const fs = require('fs');
 const moment = require('moment');
 const createReservations = require('./createReservations.js');
 
-const writeReservations = fs.createWriteStream('cass_reservations.csv');
-writeReservations.write('property_id,reservation_id,check_in,check_out,guests\n', 'utf8');
+const writeReservations = fs.createWriteStream('noidreservations.csv');
+writeReservations.write('property_id,check_in,check_out,guests\n', 'ascii');
 
 const reservationNumber = [1, 5, 5, 5, 5, 20, 20, 20, 20, 20, 50];
 
 function writeNewReservations(writer, encoding, callback) {
   let i = 10000000;
-  let d = 0;
+  let d = 1;
   function write() {
     let ok = true;
     let reservationIndex = 0;
     let numOfReservations = reservationNumber[i % reservationNumber.length];
     let reservations = createReservations(numOfReservations, moment().format('YYYY-MM-DD'));
     do {
-      const guests = [4, 2, 6][i % 3];
-      // const maximumGuests = [8, 2, 4][i % 3];
+      // const guests = [4, 2, 6][i % 3];
+      const maximumGuests = [8, 2, 4][i % 3];
 
-      // const guests = [maximumGuests - 1, maximumGuests][d % 2];
+      const guests = [maximumGuests - 1, maximumGuests][d % 2];
 
       // get a reservation
       const reservation = reservations[reservationIndex];
 
-      const data = `${i},${d + 1},${reservation.checkIn},${reservation.checkOut},${guests}\n`;
+      const data = `${i},${reservation.checkIn},${reservation.checkOut},${guests}\n`;
 
       if (i === 0) {
         writer.write(data, encoding, callback);
@@ -36,7 +36,7 @@ function writeNewReservations(writer, encoding, callback) {
         reservationIndex += 1;
         if (d % numOfReservations === 0) {
           i -= 1;
-          d = 0;
+          d = 1;
           reservationIndex = 0;
           numOfReservations = reservationNumber[i % reservationNumber.length];
           reservations = createReservations(numOfReservations, moment().format('YYYY-MM-DD'));
@@ -52,6 +52,6 @@ function writeNewReservations(writer, encoding, callback) {
   write();
 }
 
-writeNewReservations(writeReservations, 'utf-8', () => {
+writeNewReservations(writeReservations, 'ascii', () => {
   writeReservations.end();
 });
