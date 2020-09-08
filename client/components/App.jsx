@@ -90,7 +90,7 @@ class App extends React.Component {
   // get all the informations and reservations of a specify room with the input room id
   getRoomData(roomID) {
     $.get(`/rooms/${roomID}/reservation`, (data) => {
-      console.log("GET request succeed ", data);
+      console.log("GET request was successful ", data);
       this.setState({
         roomId: roomID,
         allData : data,
@@ -109,10 +109,12 @@ class App extends React.Component {
     // declare the reservation data to post
     let reservation = {
       check_in: this.state.checkInDateMomentObj.format('YYYY-MM-DD'),
-      check_out: this.state.checkOutDateMomentObj.format('YYYY-MM-DD')
+      check_out: this.state.checkOutDateMomentObj.format('YYYY-MM-DD'),
+      guests: this.state.adults + this.state.children,
     };
     $.post(`/rooms/${this.state.roomId}/reservation`, reservation, () => {
-      console.log("POST request succeed");
+      console.log('reservation object ', reservation);
+      console.log("POST request was successful");
       // clear the posted reservation data
       this.clearDate();
       // get the updated data of the corresponding room

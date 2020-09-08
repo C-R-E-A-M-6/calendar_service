@@ -52,28 +52,25 @@ app.get('/rooms/:room_id/reservation', (req, res) => {
 app.post('/rooms/:room_id/reservation', (req, res) => {
   // get the check_in date from request
   let check_in = moment(req.body.check_in);
-  console.log('req.body.check_in ', typeof req.body.check_in);
   // get the check_out date from request
   let check_out = moment(req.body.check_out);
-  // create a list of dates in YYYY-MM-DD format that started from the check_in date to the check_out date
-  let dates = [];
-  for (let i = check_in; i <= check_out; check_in.add(1, 'days')) {
-    dates.push(check_in.format('YYYY-MM-DD'));
-  }
-    // declare query string
-    let queryString = 'INSERT INTO reservations (room_id, booked_date) VALUES (?, ?)';
-    // declare query params
-    let queryParams = [req.params.room_id, dates[i]];
-    // insert current date into reservations table where room_id is equal to the room_id from the endpoint
-    db.connection.query(queryString, queryParams, (error, results, fields) => {
-      if (error) {
-        console.log(`Failed to insert data to reservations table where room id = ${req.params.room_id}: `, error);
-        res.status(404).send(error);
-      } else {
-        console.log(`Success to insert data to reservations table where room id = ${req.params.room_id}`);
-        res.status(200).send();
-      }
-    });
+  const guests = req.body.guests;
+  console.log('req.body ', req.body);
+  // declare query string
+  let queryString = 'INSERT INTO reservations (property_id, check_in, check_out, guests) VALUES ($1, $2, $3, $4)';
+  // declare query params
+  let queryParams = [req.params.room_id, check_in, check_out, guests];
+  // insert current date into reservations table where room_id is equal to the room_id from the endpoint
+  db.query(queryString, queryParams, (error, results, fields) => {
+    if (error) {
+      console.log(`Failed to insert data to reservations table where property id = ${req.params.room_id}: `, error);
+      res.status(404).send(error);
+    } else {
+      console.log('queryParams ', queryParams);
+      console.log(`Successfully inserted data to reservations table where property id = ${req.params.room_id}`);
+      res.status(200).send();
+    }
+  });
 });
 
 // Start server
