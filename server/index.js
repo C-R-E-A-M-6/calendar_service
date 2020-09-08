@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 const path = require('path');
 const expressStaticGzip = require("express-static-gzip");
-const db = require('../database/index.js');
+const db = require('../database/PostgreSQL/index.js');
 
 const app = express();
 const PORT = 3002;
@@ -22,17 +22,28 @@ app.use('/rooms/:room_id', expressStaticGzip(publicPath, {
 // GET request to '/rooms/:room_id/reservation' route
 app.get('/rooms/:room_id/reservation', (req, res) => {
   // declare query string
-  let queryString = 'SELECT rooms.nightly_fee, rooms.rating, rooms.reviews, rooms.minimum_stay, rooms.maximum_guest, reservations.id, reservations.booked_date FROM rooms, reservations WHERE rooms.id = ? AND rooms.id = reservations.room_id ORDER BY reservations.booked_date;';
+  let queryString = 'SELECT * FROM property_info, reservations WHERE property_info.property_id = $1 AND reservations.property_id = property_info.property_id ORDER BY reservations.check_in;';
   // declare query params
   let queryParams = [req.params.room_id];
   // get all the informations and reservations of a specify room with the room_id from the endpoint
-  db.connection.query(queryString, queryParams, function(error, results, fields){
+  db.query(queryString, queryParams, function(error, results, fields){
     if (error) {
       console.log("Failed to get data from databases: ", error);
       res.status(404).send(error);
     } else {
+      let dates = [];
+      for (let j = 0; j < results.rows.length; j++) {
+        let oneRes = results.rows[j];
+        let checkIn = moment(oneRes.check_in);
+        let checkOut = moment(oneRes.check_out);
+        // console.log('oneRes ', oneRes.check_in);
+        for (let i = checkIn; i <= checkOut; checkIn.add(1, 'days')) {
+          dates.push(checkIn.format('YYYY-MM-DD'));
+        }
+      }
       console.log("Succeed to get data from databases");
-      res.status(200).send(results);
+      results.rows.push(dates);
+      res.status(200).send(results.rows);
     }
   });
 });
@@ -41,6 +52,7 @@ app.get('/rooms/:room_id/reservation', (req, res) => {
 app.post('/rooms/:room_id/reservation', (req, res) => {
   // get the check_in date from request
   let check_in = moment(req.body.check_in);
+  console.log('req.body.check_in ', typeof req.body.check_in);
   // get the check_out date from request
   let check_out = moment(req.body.check_out);
   // create a list of dates in YYYY-MM-DD format that started from the check_in date to the check_out date
@@ -48,8 +60,6 @@ app.post('/rooms/:room_id/reservation', (req, res) => {
   for (let i = check_in; i <= check_out; check_in.add(1, 'days')) {
     dates.push(check_in.format('YYYY-MM-DD'));
   }
-  // iterate over the dates array
-  for (let i = 0; i < dates.length; i++) {
     // declare query string
     let queryString = 'INSERT INTO reservations (room_id, booked_date) VALUES (?, ?)';
     // declare query params
@@ -64,7 +74,6 @@ app.post('/rooms/:room_id/reservation', (req, res) => {
         res.status(200).send();
       }
     });
-  }
 });
 
 // Start server
