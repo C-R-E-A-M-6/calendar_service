@@ -2,13 +2,13 @@ const fs = require('fs');
 const moment = require('moment');
 const createReservations = require('./createReservations.js');
 
-const writeReservations = fs.createWriteStream('noidreservations.csv');
+const writeReservations = fs.createWriteStream('4noidreservations.csv');
 writeReservations.write('property_id,check_in,check_out,guests\n', 'ascii');
 
 const reservationNumber = [1, 5, 5, 5, 5, 20, 20, 20, 20, 20, 50];
 
 function writeNewReservations(writer, encoding, callback) {
-  let i = 10000000;
+  let i = 2500000;
   let d = 1;
   function write() {
     let ok = true;

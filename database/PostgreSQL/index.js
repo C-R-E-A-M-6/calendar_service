@@ -2,10 +2,10 @@ const { Pool, Client } = require('pg');
 
 const pool = new Pool({
   user: 'sdc',
-  host: 'localhost',
+  host: '3.101.40.240',
   database: 'properties',
 });
-pool.connect();
+pool.connect(() => (console.log('Connected to PostgreSQL server')));
 
 const client = new Client({
   user: 'sdc',
