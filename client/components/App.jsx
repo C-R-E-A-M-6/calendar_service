@@ -90,24 +90,16 @@ class App extends React.Component {
   // get all the informations and reservations of a specify room with the input room id
   getRoomData(roomID) {
     $.get(`/rooms/${roomID}/reservation`, (data) => {
-      console.log("GET request succeed");
+      console.log("GET request was successful ", data);
       this.setState({
         roomId: roomID,
         allData : data,
         nightly_fee : data[0].nightly_fee,
         rating : data[0].rating,
-        reviews : data[0].reviews,
+        reviews : data[0].total_reviews,
         minimum_stay : data[0].minimum_stay,
-        maximum_guest : data[0].maximum_guest,
-        /*
-         * In the localhost database, the retrieved date is formated like 2020-09-01T07:00:00.000Z,
-         * as this date transformed to moment object, the date will be stay the same (2020-09-01).
-         * In the database pulled from the DockerHub, the retrieved date is formated like 2020-09-01T00:00:00.000Z,
-         * as this date transformed to moment object, the date will be ROUNDED to the last date (2020-08-31).
-         * Since the time zones are different, in order to prevent the dated rounded to the last date,
-         * we need to take out the time zone by using slice
-         */
-        booked_date : data.map(reservation => reservation.booked_date.slice(0, 10))
+        maximum_guest : data[0].maximum_guests,
+        booked_date : data[data.length - 1]
       });
     });
   }
@@ -117,10 +109,12 @@ class App extends React.Component {
     // declare the reservation data to post
     let reservation = {
       check_in: this.state.checkInDateMomentObj.format('YYYY-MM-DD'),
-      check_out: this.state.checkOutDateMomentObj.format('YYYY-MM-DD')
+      check_out: this.state.checkOutDateMomentObj.format('YYYY-MM-DD'),
+      guests: this.state.adults + this.state.children,
     };
     $.post(`/rooms/${this.state.roomId}/reservation`, reservation, () => {
-      console.log("POST request succeed");
+      console.log('reservation object ', reservation);
+      console.log("POST request was successful");
       // clear the posted reservation data
       this.clearDate();
       // get the updated data of the corresponding room
